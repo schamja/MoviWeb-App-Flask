@@ -1,0 +1,4 @@
+Flask==3.x.x
+Flask-SQLAlchemy==3.x.x
+requests==2.x.x
+
