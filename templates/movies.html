@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div style="text-align: left; margin-bottom: 20px;">
+        <a href="{{ url_for('index') }}" style="text-decoration: none; color: var(--text-muted); font-size: 0.9rem;">
+            ← Zurück zur Nutzerliste
+        </a>
+    </div>
+
+    <h1>Meine Kinoliste</h1>
+
+
+    <div class="movie-grid">
+    {% for movie in movies %}
+    <div class="movie-card">
+        <img src="{{ movie.poster_url }}" alt="Poster">
+
+        <form action="{{ url_for('update_movie_route', movie_id=movie.id) }}" method="POST">
+            <input type="text" name="new_title" value="{{ movie.name }}" class="update-input">
+            <button type="submit" class="btn-update">Update</button>
+        </form>
+
+        <p><strong>Year:</strong> {{ movie.year }}</p>
+        <p><strong>Director:</strong> {{ movie.director }}</p>
+
+        <form action="{{ url_for('delete_movie', user_id=user_id, movie_id=movie.id) }}" method="POST">
+            <button type="submit" class="btn-delete">Delete</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+
+    <div class="form-card">
+        <h3>Film hinzufügen</h3>
+        <form action="{{ url_for('add_movie', user_id=user_id) }}" method="post">
+            <input type="text" name="title" placeholder="Filmtitel suchen..." required class ="input-film">
+            <br>
+            <button type="submit" class="btn-update">HINZUFÜGEN</button>
+        </form>
+    </div>
+{% endblock %}

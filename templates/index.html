@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>🎬 MoviWeb App</h1>
+    <p class="subtitle">Verwalte deine Lieblingsfilme</p>
+
+    {% if users %}
+    <div class="user-section">
+        <h2>Nutzer</h2>
+        <ul class="user-list">
+            {% for user in users %}
+            <li class="user-item">
+                <a href="{{ url_for('list_user_movies', user_id=user.id) }}" class="user-link">
+                    <span class="user-icon">👤</span>
+                    <span class="user-name"><strong>{{ user.name }}</strong></span>
+                    <span class="movie-count">({{ user.movies|length }} Filme)</span>
+                </a>
+
+                <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" style="margin: 0; padding-right: 15px;">
+                    <button type="submit" class="btn-primary"
+                            onclick="return confirm('Nutzer {{ user.name }} wirklich löschen?')">
+                        ✖
+                    </button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <p class="no-users">Noch keine Nutzer vorhanden. Füge den ersten Nutzer hinzu! 👇</p>
+    {% endif %}
+
+    <hr>
+
+    <div class="form-card">
+        <h2>➕ Neuen Nutzer hinzufügen</h2>
+        <form action="{{ url_for('add_user') }}" method="POST">
+            <div class="form-inline">
+                <input type="text" name="name" placeholder="Name eingeben..." required>
+                <button type="submit" class="btn-primary">Hinzufügen</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
